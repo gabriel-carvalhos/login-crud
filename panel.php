@@ -1,10 +1,10 @@
 <?php 
-    if (!isset($_SESSION)) {
-        session_start();
-    }
+    session_start();
 
     if(!isset($_SESSION['id'])) {
-        die('Acesso negado!');
+        $_SESSION['error'] = 'Acesso Negado!';
+        header('Location: index.php');
+        die();
     }
 ?>
 <!DOCTYPE html>

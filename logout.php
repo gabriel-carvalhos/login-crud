@@ -1,11 +1,10 @@
 <?php 
 
-    if (!isset($_SESSION)) {
-        session_start();
-    }
+    session_start();
 
-    session_destroy();
+    unset($_SESSION['id']);
+    $_SESSION['logout'] = 'Logout realizado com sucesso!';
 
     header('Location: index.php');
-
+    die();
 ?>

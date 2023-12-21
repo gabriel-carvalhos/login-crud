@@ -1,8 +1,13 @@
 <?php 
     include('config.php');
+
+    session_start();
+
+    if (isset($_SESSION['id'])) {
+        header('Location: panel.php');
+    }
     
     if (isset($_POST['email']) || isset($_POST['password'])) {
-
         if (strlen($_POST['email']) == 0) {
             echo "Campo de E-mail vazio!";
         } else if (strlen($_POST['password']) == 0) {
@@ -24,9 +29,6 @@
                 $user = $sql_query->fetch_assoc();
                 if (password_verify($password, $user['senha_usuarios'])) {
                     # config session
-                    if (!isset($_SESSION)) {
-                        session_start();
-                    }
 
                     $_SESSION['id'] = $user['id_usuarios'];
 
@@ -48,15 +50,25 @@
     <title>Document</title>
 </head>
 <body>
+    <?php
+        $email_value = $_POST['email'] ?? '';
+        $password_value = $_POST['password'] ?? '';
+    ?>
+
     <?php 
-        $emailVal = $_POST['email'] ?? '';
-        $passwordlVal = $_POST['password'] ?? '';
+        if (isset($_SESSION['error'])) {
+            echo $_SESSION['error'];
+            unset($_SESSION['error']);
+        } else if (isset($_SESSION['logout'])) {
+            echo $_SESSION['logout'];
+            unset($_SESSION['logout']);
+        }
     ?>
 
     <h1>Login</h1>
-    <form action="" method="post">
-        <input type="email" name="email" placeholder="Email" value="<?= $emailVal?>"><br>
-        <input type="password" name="password" placeholder="Senha" value="<?= $passwordlVal?>"><br>
+    <form action="<?=$_SERVER['PHP_SELF']?>" method="post">
+        <input type="email" name="email" placeholder="Email" value="<?=$email_value?>"><br>
+        <input type="password" name="password" placeholder="Senha" value="<?=$password_value?>"><br>
         <button type="submit">Enviar</button>
     </form>
 </body>
