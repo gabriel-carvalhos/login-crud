@@ -28,7 +28,8 @@
                 echo $row['email'] . " | ";
                 echo $row['telefone'] . "| ";
                 echo $row["rua"] . ", " . $row["bairro"] . ", " . $row["cidade"] . ", " . $row["estado"] . ", " . $row["cep"];
-                echo "<a href=\"delete.php?id={$row['id']}\">deletar</a><br>";
+                echo " | <a href=\"delete.php?id={$row['id']}\">deletar</a> | ";
+                echo "<a href=\"update.php?id={$row['id']}\">atualizar</a><br>";
             }
         } else {
             echo 'Nenhum cliente encontrado';
