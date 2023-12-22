@@ -4,7 +4,9 @@
     session_start();
 
     if (isset($_SESSION['id'])) {
+        $_SESSION['login'] = 'Logado com sucesso!';
         header('Location: panel.php');
+        die();
     }
     
     if (isset($_POST['email']) || isset($_POST['password'])) {
@@ -15,7 +17,7 @@
         } else {
             # salvar campos email senha, evitando SQL injection
             $email = $_POST['email'];
-            $password = $conn->real_escape_string($_POST['password']);
+            $password = $_POST['password'];
 
             # sql query
             $query = "SELECT * FROM usuarios WHERE email_usuarios = ? LIMIT 1";
@@ -30,8 +32,10 @@
             } else {
                 if (password_verify($password, $res['senha_usuarios'])) {
                     $_SESSION['id'] = $res['id_usuarios'];
+                    $_SESSION['login'] = 'Logado com sucesso!';
 
                     header("Location: panel.php");
+                    die();
                 } else {
                     echo 'Senha incorreta!';
                 }

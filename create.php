@@ -35,8 +35,11 @@
             $stmt = $conn->prepare($query);
             $stmt->bind_param("sssi", $name, $email, $telephone, $endereco_id);
             $stmt->execute();
-        
+            
+            $_SESSION['create'] = "Usuário: $name criado!";
+
             header('Location: panel.php');
+            die();
         } else {
             echo "Dados fornecidos já estão em uso!";
         }
@@ -67,31 +70,10 @@
         <input value="<?=$cidade ?? ''?>" type="text" id="localidade" class="address" name="cidade" placeholder="cidade" pattern="[A-Za-zÀ-ÿ ]+" required>
         <input value="<?=$estado ?? ''?>" type="text" id="uf" class="address" name="estado" placeholder="estado" pattern="[A-Z]{2}" required>
         <button type="submit">Enviar</button>
+        <button type="button" onclick="location.assign('./panel.php')">Voltar</button>
     </form>
 
-    <script>
-        const address = document.querySelectorAll('.address')
-        const cep = document.querySelector('.cep')
-
-        cep.addEventListener('blur', async () => {         
-            console.log(cep.value)
-            const url = `https://viacep.com.br/ws/${cep.value}/json/`
-            const res = await fetch(url)
-            const dataRes = await res.json()
-            autocomplete(dataRes)
-        })
-
-        const autocomplete = (data) => {
-            if (data.erro) {
-                console.error('erro')
-            } else {
-                address.forEach(item => {
-                    item.value = data[item.id]
-                })
-            }
-        }
-
-    </script>
+    <?php include('api.php'); ?>
 </body>
 
 </html>

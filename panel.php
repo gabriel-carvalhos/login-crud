@@ -23,7 +23,19 @@
         if (isset($_SESSION['error404'])) {
             echo $_SESSION['error404'];
             unset($_SESSION['error404']);
-        }
+        } else if (isset($_SESSION['create'])) {
+            echo $_SESSION['create'];
+            unset($_SESSION['create']);
+        } else if (isset($_SESSION['update'])) {
+            echo $_SESSION['update'];
+            unset($_SESSION['update']);
+        } else if (isset($_SESSION['delete'])) {
+            echo $_SESSION['delete'];
+            unset($_SESSION['delete']);
+        } else if (isset($_SESSION['login'])) {
+            echo $_SESSION['login'];
+            unset($_SESSION['login']);
+        } 
     ?>
     
     <h1>Bem Vindo</h1>
@@ -36,16 +48,16 @@
                 echo $row['email'] . " | ";
                 echo $row['telefone'] . "| ";
                 echo $row["rua"] . ", " . $row["bairro"] . ", " . $row["cidade"] . ", " . $row["estado"] . ", " . $row["cep"];
-                echo " | <a href=\"delete.php?id={$row['id']}\">deletar</a> | ";
-                echo "<a href=\"update.php?id={$row['id']}\">atualizar</a><br>";
+                echo " | <button type=\"button\" onclick=\"location.assign('./delete.php?id={$row['id']}')\">Deletar</button>";
+                echo " | <button type=\"button\" onclick=\"location.assign('./update.php?id={$row['id']}')\">Atualizar</button><br>";
             }
         } else {
             echo 'Nenhum cliente encontrado';
         }
     ?>
 
-    <a href="./create.php">Criar</a>
-    <a href="./logout.php">Sair da Conta</a>
+    <button type="button" onclick="location.assign('./create.php')">Criar</button>
+    <button type="button" onclick="location.assign('./logout.php')">Sair da conta</button>
 
 </body>
 </html>

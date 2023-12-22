@@ -13,5 +13,5 @@ CREATE TABLE cliente (
     email VARCHAR(100) UNIQUE,
     telefone CHAR(11) UNIQUE,
     endereco_id INT,
-    FOREIGN KEY (endereco_id) REFERENCES Endereco(id) ON DELETE CASCADE
+    FOREIGN KEY (endereco_id) REFERENCES Endereco(id)
 );

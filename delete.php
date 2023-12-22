@@ -5,16 +5,23 @@
 
     if (!isset($_GET['id'])) {
         header('Location: panel.php');
+        die();
     }
 
     $id = $_GET['id'];
-
+    
     $query = "DELETE FROM cliente WHERE id = ?";
     $stmt = $conn->prepare($query);
     $stmt->bind_param('s', $id);
     $stmt->execute();
-    # $res = $stmt->get_result()->fetch_assoc();
-    # $sql_query = $conn->query($res) or die("Erro na query SQL:" . $conn->error);
 
+    $query = "DELETE FROM endereco WHERE id = ?";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param('s', $id);
+    $stmt->execute();
+    
+    $_SESSION['delete'] = "Usuário deletado!";
+    
     header('Location: panel.php');
+    die();
 ?>
