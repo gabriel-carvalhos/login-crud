@@ -5,7 +5,6 @@
 
 
     if (isset($_POST['name'])) {
-        # var_dump($_POST);
 
         $name = $_POST['name'];
         $email = $_POST['email'];
@@ -28,7 +27,7 @@
             $stmt->bind_param("sssss", $rua, $bairro, $cidade, $estado, $cep);
             $stmt->execute();
         
-            # Obtém o ID do último registro inserido na tabela Endereco
+            # obtém o ID do último registro inserido na tabela Endereco
             $endereco_id = $stmt->insert_id;
 
             $query = "INSERT INTO cliente (nome, email, telefone, endereco_id) VALUES (?, ?, ?, ?)";

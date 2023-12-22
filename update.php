@@ -17,7 +17,6 @@
     $stmt->bind_param('s', $id);
     $stmt->execute();
     $res = $stmt->get_result()->fetch_assoc();
-    /* var_dump($res); */
 
     if ($_POST) {
         $name = $_POST['name'];
@@ -34,9 +33,6 @@
         $stmt->bind_param('ssi', $email, $telephone, $id);
         $stmt->execute();
         $data_repeated = $stmt->get_result()->fetch_assoc();
-        /* echo "<br>";
-        var_dump($data_repeated);
-        echo "<br>"; */
 
         if (!$data_repeated) {
             $query = "UPDATE cliente

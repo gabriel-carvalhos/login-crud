@@ -15,17 +15,14 @@
         } else if (strlen($_POST['password']) == 0) {
             echo "Campo de Senha vazio!";
         } else {
-            # salvar campos email senha, evitando SQL injection
             $email = $_POST['email'];
             $password = $_POST['password'];
 
-            # sql query
             $query = "SELECT * FROM usuarios WHERE email_usuarios = ? LIMIT 1";
             $stmt = $conn->prepare($query);
             $stmt->bind_param('s', $email);
             $stmt->execute();
             $res = $stmt->get_result()->fetch_assoc();
-            # var_dump($res);
             
             if (!$res) {
                 echo "Email incorreto!";
