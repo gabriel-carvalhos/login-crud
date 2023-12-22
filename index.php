@@ -14,21 +14,22 @@
             echo "Campo de Senha vazio!";
         } else {
             # salvar campos email senha, evitando SQL injection
-            $email = $conn->real_escape_string($_POST['email']);
+            $email = $_POST['email'];
             $password = $conn->real_escape_string($_POST['password']);
 
             # sql query
-            $query = "SELECT * FROM usuarios WHERE email_usuarios = '$email' LIMIT 1";
-            $sql_query = $conn->query($query) or die("Erro na query SQL:" . $conn->error);
+            $query = "SELECT * FROM usuarios WHERE email_usuarios = ? LIMIT 1";
+            $stmt = $conn->prepare($query);
+            $stmt->bind_param('s', $email);
+            $stmt->execute();
+            $res = $stmt->get_result()->fetch_assoc();
+            # var_dump($res);
             
-            $empty_query = !$sql_query->num_rows;
-
-            if ($empty_query) {
+            if (!$res) {
                 echo "Email incorreto!";
             } else {
-                $user = $sql_query->fetch_assoc();
-                if (password_verify($password, $user['senha_usuarios'])) {
-                    $_SESSION['id'] = $user['id_usuarios'];
+                if (password_verify($password, $res['senha_usuarios'])) {
+                    $_SESSION['id'] = $res['id_usuarios'];
 
                     header("Location: panel.php");
                 } else {
@@ -64,7 +65,7 @@
 
     <h1>Login</h1>
     <form action="<?=$_SERVER['PHP_SELF']?>" method="post">
-        <input type="text" name="email" placeholder="Email" value="<?=$email_value?>"><br>
+        <input type="email" name="email" placeholder="Email" value="<?=$email_value?>"><br>
         <input type="password" name="password" placeholder="Senha" value="<?=$password_value?>"><br>
         <button type="submit">Enviar</button>
     </form>

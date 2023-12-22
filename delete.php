@@ -7,12 +7,14 @@
         header('Location: panel.php');
     }
 
-    $id = $conn->real_escape_string($_GET['id']);
-    # echo $id;
+    $id = $_GET['id'];
 
-    $query = "DELETE FROM cliente WHERE id = '$id'";
-    # echo $query;
-    $sql_query = $conn->query($query) or die("Erro na query SQL:" . $conn->error);
+    $query = "DELETE FROM cliente WHERE id = ?";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param('s', $id);
+    $stmt->execute();
+    # $res = $stmt->get_result()->fetch_assoc();
+    # $sql_query = $conn->query($res) or die("Erro na query SQL:" . $conn->error);
 
     header('Location: panel.php');
 ?>

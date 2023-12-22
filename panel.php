@@ -35,6 +35,7 @@
         }
     ?>
 
+    <a href="./create.php">Criar</a>
     <a href="./logout.php">Sair da Conta</a>
 
 </body>
