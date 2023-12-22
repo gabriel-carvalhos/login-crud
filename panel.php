@@ -7,7 +7,7 @@
               INNER JOIN endereco as e
               ON c.endereco_id = e.id";
 
-    $sql_query = $conn->query($query) or die("Erro na query SQL:" . $conn->error);
+    $res = $conn->query($query) or die("Erro na query SQL:" . $conn->error);
 
 ?>
 <!DOCTYPE html>
@@ -18,11 +18,19 @@
     <title>Painel</title>
 </head>
 <body>
+    
+    <?php
+        if (isset($_SESSION['error404'])) {
+            echo $_SESSION['error404'];
+            unset($_SESSION['error404']);
+        }
+    ?>
+    
     <h1>Bem Vindo</h1>
-
+    
     <?php 
-        if ($sql_query->num_rows) {
-            while ($row = $sql_query->fetch_assoc()) {
+        if ($res->num_rows) {
+            while ($row = $res->fetch_assoc()) {
                 echo $row['id'] . " | ";
                 echo $row['nome'] . " | ";
                 echo $row['email'] . " | ";

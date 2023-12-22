@@ -1,47 +1,47 @@
 <?php
-include('protect.php');
+    include('protect.php');
 
-include('config.php');
+    include('config.php');
 
 
-if (isset($_POST['name'])) {
-    var_dump($_POST);
+    if (isset($_POST['name'])) {
+        # var_dump($_POST);
 
-    $name = $_POST['name'];
-    $email = $_POST['email'];
-    $telephone = $_POST['telephone'];
-    $cep = $_POST['cep'];
-    $rua = $_POST['rua'];
-    $bairro = $_POST['bairro'];
-    $cidade = $_POST['cidade'];
-    $estado = $_POST['estado'];
+        $name = $_POST['name'];
+        $email = $_POST['email'];
+        $telephone = $_POST['telephone'];
+        $cep = $_POST['cep'];
+        $rua = $_POST['rua'];
+        $bairro = $_POST['bairro'];
+        $cidade = $_POST['cidade'];
+        $estado = $_POST['estado'];
 
-    $sqlCheckUnique = "SELECT id FROM cliente WHERE email = ? OR telefone = ?";
-    $stmtCheckUnique = $conn->prepare($sqlCheckUnique);
-    $stmtCheckUnique->bind_param("ss", $email, $telephone);
-    $stmtCheckUnique->execute();
-    $res = $stmtCheckUnique->get_result()->fetch_assoc();
+        $query = "SELECT id FROM cliente WHERE email = ? OR telefone = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("ss", $email, $telephone);
+        $stmt->execute();
+        $data_repeated = $stmt->get_result()->fetch_assoc();
 
-    if (!$res) {
-        $sqlEndereco = "INSERT INTO Endereco (rua, bairro, cidade, estado, cep) VALUES (?, ?, ?, ?, ?)";
-        $stmtEndereco = $conn->prepare($sqlEndereco);
-        $stmtEndereco->bind_param("sssss", $rua, $bairro, $cidade, $estado, $cep);
-        $stmtEndereco->execute();
-    
-        // Obtém o ID do último registro inserido na tabela Endereco
-        $endereco_id = $stmtEndereco->insert_id;
-        // Insere os dados na tabela Pessoa com o ID do Endereco relacionado
-        $sqlPessoa = "INSERT INTO cliente (nome, email, telefone, endereco_id) VALUES (?, ?, ?, ?)";
-        $stmtPessoa = $conn->prepare($sqlPessoa);
-        $stmtPessoa->bind_param("sssi", $name, $email, $telephone, $endereco_id);
-        $stmtPessoa->execute();
-    
-        header('Location: panel.php');
-    } else {
-        echo "Dados fornecidos já estão em uso!";
+        if (!$data_repeated) {
+            $query = "INSERT INTO Endereco (rua, bairro, cidade, estado, cep) VALUES (?, ?, ?, ?, ?)";
+            $stmt = $conn->prepare($query);
+            $stmt->bind_param("sssss", $rua, $bairro, $cidade, $estado, $cep);
+            $stmt->execute();
+        
+            # Obtém o ID do último registro inserido na tabela Endereco
+            $endereco_id = $stmt->insert_id;
+
+            $query = "INSERT INTO cliente (nome, email, telefone, endereco_id) VALUES (?, ?, ?, ?)";
+            $stmt = $conn->prepare($query);
+            $stmt->bind_param("sssi", $name, $email, $telephone, $endereco_id);
+            $stmt->execute();
+        
+            header('Location: panel.php');
+        } else {
+            echo "Dados fornecidos já estão em uso!";
+        }
+
     }
-
-}
 
 ?>
 
@@ -57,15 +57,15 @@ if (isset($_POST['name'])) {
 <body>
     <h1>Criar Usuário</h1>
 
-    <form action="" method="post">
-        <input value="<?php echo $name?>" type="text" name="name" placeholder="nome" pattern="[A-Za-zÀ-ÿ ]+" required>
-        <input value="<?php echo $email?>" type="email" name="email" placeholder="email" required>
-        <input value="<?php echo $telephone?>" type="tel" name="telephone" placeholder="telefone" pattern="[0-9]{11}" required>
-        <input value="<?php echo $cep?>" type="text" id="cep" class="cep" name="cep" placeholder="cep" pattern="[0-9]{8}" required>
-        <input value="<?php echo $rua?>" type="text" id="logradouro" class="address" name="rua" placeholder="rua" pattern="[A-Za-zÀ-ÿ ]+" required>
-        <input value="<?php echo $bairro?>" type="text" id="bairro" class="address" name="bairro" placeholder="bairro" pattern="[A-Za-zÀ-ÿ ]+" required>
-        <input value="<?php echo $cidade?>" type="text" id="localidade" class="address" name="cidade" placeholder="cidade" pattern="[A-Za-zÀ-ÿ ]+" required>
-        <input value="<?php echo $estado?>" type="text" id="uf" class="address" name="estado" placeholder="estado" pattern="[A-Z]{2}" required>
+    <form action="<?=$_SERVER['PHP_SELF']?>" method="post">
+        <input value="<?=$name ?? '' ?>" type="text" name="name" placeholder="nome" pattern="[A-Za-zÀ-ÿ ]+" required>
+        <input value="<?=$email ?? ''?>" type="email" name="email" placeholder="email" required>
+        <input value="<?=$telephone ?? ''?>" type="tel" name="telephone" placeholder="telefone" pattern="[0-9]{11}" required>
+        <input value="<?=$cep ?? ''?>" type="text" id="cep" class="cep" name="cep" placeholder="cep" pattern="[0-9]{8}" required>
+        <input value="<?=$rua ?? ''?>" type="text" id="logradouro" class="address" name="rua" placeholder="rua" pattern="[A-Za-zÀ-ÿ ]+" required>
+        <input value="<?=$bairro ?? ''?>" type="text" id="bairro" class="address" name="bairro" placeholder="bairro" pattern="[A-Za-zÀ-ÿ ]+" required>
+        <input value="<?=$cidade ?? ''?>" type="text" id="localidade" class="address" name="cidade" placeholder="cidade" pattern="[A-Za-zÀ-ÿ ]+" required>
+        <input value="<?=$estado ?? ''?>" type="text" id="uf" class="address" name="estado" placeholder="estado" pattern="[A-Z]{2}" required>
         <button type="submit">Enviar</button>
     </form>
 
