@@ -71,7 +71,7 @@
     <form action="<?=$_SERVER['PHP_SELF']?>" method="post">
         <input type="email" name="email" placeholder="Email" value="<?=$email_value?>"><br>
         <input type="password" name="password" placeholder="Senha" value="<?=$password_value?>"><br>
-        <button type="submit">Enviar</button>
+        <button type="submit">Login</button>
     </form>
 </body>
 </html>

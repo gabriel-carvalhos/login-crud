@@ -48,15 +48,15 @@
                 echo $row['email'] . " | ";
                 echo $row['telefone'] . "| ";
                 echo $row["rua"] . ", " . $row["bairro"] . ", " . $row["cidade"] . ", " . $row["estado"] . ", " . $row["cep"];
-                echo " | <button type=\"button\" onclick=\"location.assign('./delete.php?id={$row['id']}')\">Deletar</button>";
-                echo " | <button type=\"button\" onclick=\"location.assign('./update.php?id={$row['id']}')\">Atualizar</button><br>";
+                echo " | <button type=\"button\" onclick=\"if(confirm('Deseja apagar este usuário?')) { location.assign('./delete.php?id={$row['id']}') }\">Apagar</button>";
+                echo " | <button type=\"button\" onclick=\"location.assign('./update.php?id={$row['id']}')\">Editar</button><br>";
             }
         } else {
             echo 'Nenhum cliente encontrado';
         }
     ?>
 
-    <button type="button" onclick="location.assign('./create.php')">Criar</button>
+    <button type="button" onclick="location.assign('./create.php')">Cadastrar</button>
     <button type="button" onclick="location.assign('./logout.php')">Sair da conta</button>
 
 </body>
