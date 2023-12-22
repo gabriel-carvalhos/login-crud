@@ -6,7 +6,7 @@ Tecnologias utilizadas:
 - MySQL
 
 ## Setup
-É necessário criar um banco de dados MySQL chamado client_crud.
+É necessário criar um banco de dados MySQL com o código abaixo.
 
 ```mysql
   CREATE DATABASE client_crud;
