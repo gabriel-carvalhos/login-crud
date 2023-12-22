@@ -46,10 +46,10 @@
                 echo $row['id'] . " | ";
                 echo $row['nome'] . " | ";
                 echo $row['email'] . " | ";
-                echo $row['telefone'] . "| ";
+                echo $row['telefone'] . " | ";
                 echo $row["rua"] . ", " . $row["bairro"] . ", " . $row["cidade"] . ", " . $row["estado"] . ", " . $row["cep"];
                 echo " | <button type=\"button\" onclick=\"if(confirm('Deseja apagar este usuário?')) { location.assign('./delete.php?id={$row['id']}') }\">Apagar</button>";
-                echo " | <button type=\"button\" onclick=\"location.assign('./update.php?id={$row['id']}')\">Editar</button><br>";
+                echo " <button type=\"button\" onclick=\"location.assign('./update.php?id={$row['id']}')\">Editar</button><br>";
             }
         } else {
             echo 'Nenhum cliente encontrado';
