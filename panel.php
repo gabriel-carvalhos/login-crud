@@ -1,11 +1,5 @@
 <?php 
-    session_start();
-
-    if(!isset($_SESSION['id'])) {
-        $_SESSION['error'] = 'Acesso Negado!';
-        header('Location: index.php');
-        die();
-    }
+    include('protect.php');
 
     include('config.php');
 
@@ -43,6 +37,5 @@
 
     <a href="./logout.php">Sair da Conta</a>
 
-    
 </body>
 </html>
