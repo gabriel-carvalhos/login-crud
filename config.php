@@ -1,7 +1,7 @@
 <?php 
 
     $user = 'root';
-    $password = '';
+    $password = 'root';
     $database = 'client_crud';
     $host = 'localhost';
 
