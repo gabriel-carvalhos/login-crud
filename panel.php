@@ -13,30 +13,12 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <?php include('head.php') ?>
     <title>Painel</title>
 </head>
 <body>
     
-    <?php
-        if (isset($_SESSION['error404'])) {
-            echo $_SESSION['error404'];
-            unset($_SESSION['error404']);
-        } else if (isset($_SESSION['create'])) {
-            echo $_SESSION['create'];
-            unset($_SESSION['create']);
-        } else if (isset($_SESSION['update'])) {
-            echo $_SESSION['update'];
-            unset($_SESSION['update']);
-        } else if (isset($_SESSION['delete'])) {
-            echo $_SESSION['delete'];
-            unset($_SESSION['delete']);
-        } else if (isset($_SESSION['login'])) {
-            echo $_SESSION['login'];
-            unset($_SESSION['login']);
-        }
-    ?>
+    <?php include('notify.php') ?>
     
     <h1>Bem Vindo</h1>
     

@@ -1,9 +1,23 @@
 <?php
 
-    foreach($_SESSION as $index => $msg) {
-        echo "<script>notify('error', '$msg')</script>";
+    $status = [
+        "login" => "info",
+        "logout" => "info",
+        "create" => 'success',
+        "update" => 'warning',
+        "error404" => 'error',
+        "delete" => 'error',
+        "error" => 'error',
+        "error_email" => 'error',
+        "error_password" => 'error'
+    ];
 
-        unset($_SESSION[$index]);
+    foreach($_SESSION as $index => $msg) {
+        if (key_exists($index, $status)) {
+            echo "<script>notify('$status[$index]', '$msg')</script>";
+    
+            unset($_SESSION[$index]);
+        }
     }
 
 ?>
