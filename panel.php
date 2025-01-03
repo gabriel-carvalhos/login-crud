@@ -35,7 +35,7 @@
         } else if (isset($_SESSION['login'])) {
             echo $_SESSION['login'];
             unset($_SESSION['login']);
-        } 
+        }
     ?>
     
     <h1>Bem Vindo</h1>
