@@ -37,7 +37,6 @@ function login($conn) {
 
     header("Location: panel.php");
     die();
-
 }
 
 function validateFields($field, $msg) {
