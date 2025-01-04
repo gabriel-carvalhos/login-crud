@@ -1,18 +1,19 @@
 <?php
-    include('protect.php');
+include('protect.php');
 
-    include('config.php');
+include('config.php');
 
-    $query = "SELECT * FROM cliente AS c
+$query = "SELECT * FROM cliente AS c
               INNER JOIN endereco as e
               ON c.endereco_id = e.id";
 
-    $res = $conn->query($query) or die("Erro na query SQL:" . $conn->error);
+$res = $conn->query($query) or die("Erro na query SQL:" . $conn->error);
 
 ?>
 
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <?php include('head.php') ?>
     <title>Painel</title>
@@ -22,7 +23,7 @@
 
     <?php include('notify.php') ?>
     <?php include('header.php') ?>
-    
+
     <div class="px-2 col-12 col-sm-12 col-md-10 col-lg-7">
         <h1>Usuários</h1>
 
@@ -40,9 +41,9 @@
                 </thead>
                 <tbody>
                     <?php
-                        if ($res->num_rows) {
-                            while ($row = $res->fetch_assoc()) {
-                                echo "<tr>
+                    if ($res->num_rows) {
+                        while ($row = $res->fetch_assoc()) {
+                            echo "<tr>
                                         <th scope='row'>{$row['id']}</th>
                                         <td>{$row['nome']}</td>
                                         <td>{$row['email']}</td>
@@ -51,23 +52,56 @@
                                         <td>
                                             <div class='d-flex flex-wrap gap-1'>
                                                 <a href='/update.php?id={$row['id']}' class='btn btn-warning flex-grow-1'>Editar</a>
-                                                <button class='btn btn-danger flex-grow-1' onclick=\"if(confirm('Deseja apagar este usuário?')) { location.assign('./delete.php?id={$row['id']}') }\">Apagar</button>
+                                                <button data-bs-toggle='modal' data-bs-target='#exampleModal' data-action='delete.php?id={$row['id']}' class='btn btn-danger flex-grow-1'>Apagar</button>
                                             </div>
                                         </td>
                                     </tr>";
-                            }
-                        } else {
-                            echo "<tr>
+                        }
+                    } else {
+                        echo "<tr>
                                     <td colspan='6' class='text-center'>Nenhum cliente encontrado</td>
                                 </tr>";
-                        }
+                    }
                     ?>
                 </tbody>
             </table>
         </div>
-
     </div>
-    <!-- <button type="button" onclick="location.assign('./logout.php')">Sair da conta</button> -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Deletar Usuário?</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Deseja apagar esse usuário?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-danger" id="confirm">Deletar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const exampleModal = document.getElementById('exampleModal')
+        const confirm = exampleModal.querySelector('#confirm')
+        if (exampleModal) {
+            exampleModal.addEventListener('show.bs.modal', event => {
+                const button = event.relatedTarget
+                const action = button.getAttribute('data-action')
+
+                confirm.addEventListener('click', () => {
+                    location.assign(`/${action}`)
+                })
+                
+            })
+        }
+    </script>
 </body>
 
 </html>
