@@ -57,7 +57,7 @@
     </div>
 
     <div class="d-flex gap-2">
-        <button class="btn btn-primary flex-grow-1" type="submit">Criar</button>
+        <button class="btn btn-primary flex-grow-1" type="submit">Enviar</button>
         <a class="btn btn-light flex-grow-1" href="/panel.php">Voltar</a>
     </div>
 </form>

@@ -44,7 +44,7 @@
         $stmt->bind_param("sssi", $name, $email, $phone, $address_id);
         $stmt->execute();
         
-        $_SESSION['create'] = "Usuário: $name criado!";
+        $_SESSION['create'] = "Usuário criado!";
 
         header('Location: panel.php');
         die();
@@ -60,14 +60,19 @@
     <title>Criar Usuário</title>
 </head>
 
-<body class="w-100 min-vh-100 d-flex flex-column justify-content-center align-items-center">
+<body>
 
-    <?php include('header.php') ?>
+    <?php 
+        $page = 'create';
+        include('header.php');
+    ?>
 
-    <div class="container col-12 col-sm-10 col-md-8 col-lg-6 col-xl-4">
-        <h1>Criar Cliente</h1>
-        <?php include('fields.php') ?>
-    </div>
+    <main class="d-flex justify-content-center align-items-center py-4" style="min-height: calc(100vh - 56px);">
+        <div class="container col-12 col-sm-10 col-md-8 col-lg-6 col-xl-4">
+            <h1>Criar Cliente</h1>
+            <?php include('fields.php') ?>
+        </div>
+    </main>
 
     <?php include('notify.php') ?>
     <?php include('api.php'); ?>

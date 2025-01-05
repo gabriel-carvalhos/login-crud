@@ -66,7 +66,7 @@
         $stmt->bind_param('ssssss', $street, $district, $city, $state, $cep, $id);
         $stmt->execute();
 
-        $_SESSION['update'] = "Usuário: $name atualizado!";
+        $_SESSION['update'] = "Usuário atualizado!";
 
         header('Location: panel.php');
         die();
@@ -80,14 +80,16 @@
     <title>Editar</title>
 </head>
 
-<body class="w-100 min-vh-100 d-flex flex-column justify-content-center align-items-center">
+<body>
 
     <?php include('header.php') ?>
 
-    <div class="container col-12 col-sm-10 col-md-8 col-lg-6 col-xl-4">
-        <h1>Editar Usuário</h1>
-        <?php include('fields.php') ?>
-    </div>
+    <main class="d-flex justify-content-center align-items-center py-4" style="min-height: calc(100vh - 56px);">
+        <div class="container col-12 col-sm-10 col-md-8 col-lg-6 col-xl-4">
+            <h1>Editar Usuário</h1>
+            <?php include('fields.php') ?>
+        </div>
+    </main>
 
     <?php include('notify.php') ?>
     <?php include('api.php'); ?>

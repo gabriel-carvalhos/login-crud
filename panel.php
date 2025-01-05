@@ -20,54 +20,62 @@ $res = $conn->query($query) or die("Erro na query SQL:" . $conn->error);
     <title>Painel</title>
 </head>
 
-<body class="w-100 min-vh-100 d-flex flex-column justify-content-center align-items-center">
+<body>
 
     <?php include('notify.php') ?>
-    <?php include('header.php') ?>
+    <?php 
+        $page = 'panel';
+        include('header.php');
+    ?>
 
-    <div class="px-2 col-12 col-sm-12 col-md-10 col-lg-7">
-        <h1>Clientes</h1>
-
-        <div class="table-responsive">
-            <table class="table table-striped table-hover table-bordered m-0">
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Nome</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Telefone</th>
-                        <th scope="col">Endereço</th>
-                        <th scope="col">Ações</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    if ($res->num_rows) {
-                        while ($row = $res->fetch_assoc()) {
+    <main class="d-flex justify-content-center align-items-center py-4" style="min-height: calc(100vh - 56px);">
+        <div class="px-2 col-12 col-sm-12 col-md-10 col-lg-7">
+            <div class="d-flex justify-content-between align-items-center">
+                <h1>Clientes</h1>
+                <a href="/create.php" class="btn btn-success">Cadastrar</a>
+            </div>
+    
+            <div class="table-responsive">
+                <table class="table table-striped table-hover table-bordered m-0">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Nome</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Telefone</th>
+                            <th scope="col">Endereço</th>
+                            <th scope="col">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        if ($res->num_rows) {
+                            while ($row = $res->fetch_assoc()) {
+                                echo "<tr>
+                                            <th scope='row'>{$row['id']}</th>
+                                            <td>{$row['name']}</td>
+                                            <td>{$row['email']}</td>
+                                            <td>{$row['phone']}</td>
+                                            <td>{$row['street']}, {$row['district']}, {$row['city']}, {$row['state']}, {$row['cep']}</td>
+                                            <td>
+                                                <div class='d-flex flex-wrap gap-1'>
+                                                    <a href='/update.php?id={$row['id']}' class='btn btn-warning flex-grow-1'>Editar</a>
+                                                    <button data-bs-toggle='modal' data-bs-target='#deleteModal' data-action='delete.php?id={$row['id']}' class='btn btn-danger flex-grow-1'>Apagar</button>
+                                                </div>
+                                            </td>
+                                        </tr>";
+                            }
+                        } else {
                             echo "<tr>
-                                        <th scope='row'>{$row['id']}</th>
-                                        <td>{$row['name']}</td>
-                                        <td>{$row['email']}</td>
-                                        <td>{$row['phone']}</td>
-                                        <td>{$row['street']}, {$row['district']}, {$row['city']}, {$row['state']}, {$row['cep']}</td>
-                                        <td>
-                                            <div class='d-flex flex-wrap gap-1'>
-                                                <a href='/update.php?id={$row['id']}' class='btn btn-warning flex-grow-1'>Editar</a>
-                                                <button data-bs-toggle='modal' data-bs-target='#deleteModal' data-action='delete.php?id={$row['id']}' class='btn btn-danger flex-grow-1'>Apagar</button>
-                                            </div>
-                                        </td>
+                                        <td colspan='6' class='text-center'>Nenhum cliente encontrado</td>
                                     </tr>";
                         }
-                    } else {
-                        echo "<tr>
-                                    <td colspan='6' class='text-center'>Nenhum cliente encontrado</td>
-                                </tr>";
-                    }
-                    ?>
-                </tbody>
-            </table>
+                        ?>
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>
+    </main>
 
     <!-- Modal -->
     <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
