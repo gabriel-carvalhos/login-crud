@@ -55,8 +55,8 @@ $res = $conn->query($query) or die("Erro na query SQL:" . $conn->error);
                                             <th scope='row'>{$row['id']}</th>
                                             <td>{$row['name']}</td>
                                             <td>{$row['email']}</td>
-                                            <td>{$row['phone']}</td>
-                                            <td>{$row['street']}, {$row['district']}, {$row['city']}, {$row['state']}, {$row['cep']}</td>
+                                            <td class='phone'>{$row['phone']}</td>
+                                            <td>{$row['street']}, {$row['district']}, {$row['city']}, {$row['state']}, <span class='cep'>{$row['cep']}</span></td>
                                             <td>
                                                 <div class='d-flex flex-wrap gap-1'>
                                                     <a href='/update.php?id={$row['id']}' class='btn btn-warning flex-grow-1'>Editar</a>
@@ -110,6 +110,11 @@ $res = $conn->query($query) or die("Erro na query SQL:" . $conn->error);
                 
             })
         }
+    </script>
+
+    <script>
+        $('.phone').mask('(00) 00000-0000')
+        $('.cep').mask('00000-000')
     </script>
 </body>
 
