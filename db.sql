@@ -26,5 +26,5 @@ CREATE TABLE IF NOT EXISTS client (
     email VARCHAR(100) UNIQUE,
     phone CHAR(11) UNIQUE,
     address_id INT,
-    FOREIGN KEY (address_id) REFERENCES address(id)
+    FOREIGN KEY (address_id) REFERENCES address(id) ON DELETE CASCADE
 );

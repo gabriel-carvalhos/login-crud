@@ -9,12 +9,6 @@
     }
 
     $id = $_GET['id'];
-    
-    $query = "DELETE FROM client WHERE id = ?";
-    $stmt = $conn->prepare($query);
-    $stmt->bind_param('s', $id);
-    $stmt->execute();
-
     $query = "DELETE FROM address WHERE id = ?";
     $stmt = $conn->prepare($query);
     $stmt->bind_param('s', $id);
