@@ -16,21 +16,27 @@
     $stmt = $conn->prepare($query);
     $stmt->bind_param('s', $id);
     $stmt->execute();
-    $res = $stmt->get_result()->fetch_assoc();
+    $res = $stmt->get_result()->fetch_object();
 
+    if (!$res) {
+        $_SESSION['error404'] = 'Página não encontrada!';
+        header('Location: panel.php');
+        die();
+    }
+    
     if ($_POST) {
         $name = $_POST['name'];
         $email = $_POST['email'];
-        $telephone = $_POST['telephone'];
+        $phone = $_POST['phone'];
         $cep = $_POST['cep'];
-        $rua = $_POST['rua'];
-        $bairro = $_POST['bairro'];
-        $cidade = $_POST['cidade'];
-        $estado = $_POST['estado'];
+        $street = $_POST['street'];
+        $district = $_POST['district'];
+        $city = $_POST['city'];
+        $state = $_POST['state'];
 
         $query = "SELECT * FROM client WHERE (email = ? OR phone = ?) AND id != ?";
         $stmt = $conn->prepare($query);
-        $stmt->bind_param('ssi', $email, $telephone, $id);
+        $stmt->bind_param('ssi', $email, $phone, $id);
         $stmt->execute();
         $data_repeated = $stmt->get_result()->fetch_assoc();
 
@@ -39,14 +45,14 @@
                       SET name = ?, email = ?, phone = ?
                       WHERE id = ?";
             $stmt = $conn->prepare($query);
-            $stmt->bind_param('ssss', $name, $email, $telephone, $id);
+            $stmt->bind_param('ssss', $name, $email, $phone, $id);
             $stmt->execute();
     
             $query = "UPDATE address
                       SET street = ?, district = ?, city = ?, state = ?, cep = ?
                       WHERE id = ?";
             $stmt = $conn->prepare($query);
-            $stmt->bind_param('ssssss', $rua, $bairro, $cidade, $estado, $cep, $id);
+            $stmt->bind_param('ssssss', $street, $district, $city, $state, $cep, $id);
             $stmt->execute();
 
             $_SESSION['update'] = "Usuário: $name atualizado!";
@@ -56,25 +62,25 @@
         } else {
             echo "Dados fornecidos já estão em uso!";
         }
-
-    } else if (!$res) {
-        $_SESSION['error404'] = 'Página não encontrada!';
-
-        header('Location: panel.php');
-        die();
     }
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <?php include('head.php') ?>
     <title>Editar</title>
 </head>
-<body>
-    <h1>Editar Usuário</h1>
 
-    <form action="<?php $_SERVER['PHP_SELF']?>" method="post">
+<body class="w-100 min-vh-100 d-flex flex-column justify-content-center align-items-center">
+
+    <div class="container col-12 col-sm-10 col-md-8 col-lg-6 col-xl-4">
+        <h1>Editar Usuário</h1>
+        <?php include('fields.php') ?>
+    </div>
+
+    <?php include('notify.php') ?>
+
+    <!-- <form class="mt-3" action="<?php $_SERVER['PHP_SELF']?>" method="post">
         <input value="<?= $_POST['name'] ?? $res['name']?>" type="text" name="name" placeholder="nome" pattern="[A-Za-zÀ-ÿ ]+" required>
         <input value="<?= $_POST['email'] ?? $res['email']?>" type="email" name="email" placeholder="email" required>
         <input value="<?= $_POST['telephone'] ?? $res['phone']?>" type="tel" name="telephone" placeholder="telefone" pattern="[0-9]{11}" required>
@@ -85,7 +91,7 @@
         <input value="<?= $_POST['estado'] ?? $res['state']?>" type="text" id="uf" class="address" name="estado" placeholder="estado" pattern="[A-Z]{2}" required>
         <button type="submit">Enviar</button>
         <button type="button" onclick="location.assign('./panel.php')">Voltar</button>
-    </form>
+    </form> -->
 
     <?php include('api.php'); ?>
 </body>

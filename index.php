@@ -58,7 +58,7 @@ function validateFields($field, $msg) {
     <title>Login</title>
 </head>
 
-<body class="w-100 vh-100 d-flex flex-column justify-content-center align-items-center">
+<body class="w-100 min-vh-100 d-flex flex-column justify-content-center align-items-center">
     
     <div class="container col-12 col-sm-10 col-md-8 col-lg-6 col-xl-4">
         <form action="<?= $_SERVER['PHP_SELF'] ?>" method="post">
