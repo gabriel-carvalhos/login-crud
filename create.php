@@ -19,17 +19,21 @@
             'city'=>$city,
             'state'=>$state
         ] = $_POST;
+        
+        // Limpando formatação
+        $phone = str_replace(["(",")","-"," "], "", $phone);
+        $cep = str_replace("-", "", $cep);
 
-        $query = "SELECT id FROM client WHERE email = ? OR phone = ?";
+        $query = "SELECT email, phone FROM client WHERE email = ? OR phone = ?";
         $stmt = $conn->prepare($query);
         $stmt->bind_param("ss", $email, $phone);
         $stmt->execute();
-
-        $data_repeated = $stmt->get_result()->fetch_assoc();
-        if ($data_repeated) {
-            echo "Dados fornecidos já estão em uso!";
-            return;
-        }
+        $data_repeated = $stmt->get_result()->fetch_object();
+        
+        // Validando formulário
+        include('validate.php');
+        $isValid = validate($name, $email, $phone, $cep, $street, $district, $city, $state, $data_repeated);
+        if (!$isValid) return;
 
         $query = "INSERT INTO address (street, district, city, state, cep) VALUES (?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($query);
@@ -49,7 +53,6 @@
         header('Location: panel.php');
         die();
     }
-
 ?>
 
 <!DOCTYPE html>

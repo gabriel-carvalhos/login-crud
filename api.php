@@ -5,7 +5,7 @@
     const spinner = document.querySelector('.spinner')
 
     cep.addEventListener('blur', async () => {
-        if (cep.value.length >= 8) {
+        if (cep.value.length >= 9) {
             spinner.classList.remove('d-none')
             cep.classList.remove('is-invalid')
             setDisabled(true)

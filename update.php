@@ -41,16 +41,20 @@
             'state'=>$state
         ] = $_POST;
 
-        $query = "SELECT * FROM client WHERE (email = ? OR phone = ?) AND id != ?";
+        // Limpando formatação
+        $phone = str_replace(["(",")","-"," "], "", $phone);
+        $cep = str_replace("-", "", $cep);
+
+        $query = "SELECT email, phone FROM client WHERE (email = ? OR phone = ?) AND id != ?";
         $stmt = $conn->prepare($query);
         $stmt->bind_param('ssi', $email, $phone, $id);
         $stmt->execute();
-        $data_repeated = $stmt->get_result()->fetch_assoc();
+        $data_repeated = $stmt->get_result()->fetch_object();
         
-        if ($data_repeated) {
-            echo "Dados fornecidos já estão em uso!";
-            return;
-        }
+        // Validando formulário
+        require 'validate.php';
+        $isValid = validate($name, $email, $phone, $cep, $street, $district, $city, $state, $data_repeated);
+        if (!$isValid) return;
         
         $query = "UPDATE client
                     SET name = ?, email = ?, phone = ?
