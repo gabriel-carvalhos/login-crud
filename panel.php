@@ -1,7 +1,7 @@
 <?php
-include('protect.php');
+include('includes/protect.php');
 
-include('config.php');
+include('includes/config.php');
 
 $query = "SELECT * FROM client AS c
           INNER JOIN address AS a
@@ -16,16 +16,16 @@ $res = $conn->query($query) or die("Erro na query SQL:" . $conn->error);
 <html lang="pt-br">
 
 <head>
-    <?php include('head.php') ?>
+    <?php include('includes/head.php') ?>
     <title>Painel</title>
 </head>
 
 <body>
 
-    <?php include('notify.php') ?>
+    <?php include('includes/notify.php') ?>
     <?php 
         $page = 'panel';
-        include('header.php');
+        include('includes/header.php');
     ?>
 
     <main class="d-flex justify-content-center align-items-center py-4" style="min-height: calc(100vh - 56px);">
@@ -96,26 +96,8 @@ $res = $conn->query($query) or die("Erro na query SQL:" . $conn->error);
         </div>
     </div>
 
-    <script>
-        const deleteModal = document.getElementById('deleteModal')
-        const confirm = deleteModal.querySelector('#confirm')
-        if (deleteModal) {
-            deleteModal.addEventListener('show.bs.modal', event => {
-                const button = event.relatedTarget
-                const action = button.getAttribute('data-action')
-
-                confirm.addEventListener('click', () => {
-                    location.assign(`/${action}`)
-                })
-                
-            })
-        }
-    </script>
-
-    <script>
-        $('.phone').mask('(00) 00000-0000')
-        $('.cep').mask('00000-000')
-    </script>
+    <script src="js/mask.js"></script>
+    <script src="js/deleteModal.js"></script>
 </body>
 
 </html>

@@ -1,7 +1,7 @@
 <?php 
-    include('protect.php');
+    include('includes/protect.php');
 
-    include('config.php');
+    include('includes/config.php');
 
     if (!isset($_GET['id'])) {
         header('Location: panel.php');

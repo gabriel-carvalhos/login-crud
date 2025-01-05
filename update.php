@@ -1,7 +1,7 @@
 <?php 
-    include('protect.php');
+    include('includes/protect.php');
 
-    include('config.php');
+    include('includes/config.php');
 
     if (!isset($_GET['id'])) {
         header('Location: panel.php');
@@ -52,7 +52,7 @@
         $data_repeated = $stmt->get_result()->fetch_object();
         
         // Validando formulário
-        require 'validate.php';
+        include('includes/validate.php');
         $isValid = validate($name, $email, $phone, $cep, $street, $district, $city, $state, $data_repeated);
         if (!$isValid) return;
         
@@ -80,22 +80,24 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <?php include('head.php') ?>
+    <?php include('includes/head.php') ?>
     <title>Editar</title>
 </head>
 
 <body>
 
-    <?php include('header.php') ?>
+    <?php include('includes/header.php') ?>
 
     <main class="d-flex justify-content-center align-items-center py-4" style="min-height: calc(100vh - 56px);">
         <div class="container col-12 col-sm-10 col-md-8 col-lg-6 col-xl-4">
             <h1>Editar Usuário</h1>
-            <?php include('fields.php') ?>
+            <?php include('includes/fields.php') ?>
         </div>
     </main>
 
-    <?php include('notify.php') ?>
-    <?php include('api.php'); ?>
+    <script src="js/viacep.js"></script>
+    <script src="js/mask.js"></script>
+
+    <?php include('includes/notify.php') ?>
 </body>
 </html>

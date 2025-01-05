@@ -16,13 +16,13 @@
     </div>
 
     <div class="form-floating mb-3">
-        <input class="form-control <?= isset($_SESSION['error_phone']) ? 'is-invalid' : '' ?>" id="phone" type="tel" name="phone" placeholder="Telefone" value="<?= $_POST['phone'] ?? $res?->phone ?>">
+        <input class="form-control phone <?= isset($_SESSION['error_phone']) ? 'is-invalid' : '' ?>" id="phone" type="tel" name="phone" placeholder="Telefone" value="<?= $_POST['phone'] ?? $res?->phone ?>">
         <label for="phone">Telefone</label>
         <div class="invalid-feedback"><?= $_SESSION['error_phone'] ?></div>
     </div>
 
     <div class="form-floating mb-3">
-        <input class="form-control <?= isset($_SESSION['error_cep']) ? 'is-invalid' : '' ?>" id="cep" type="text" name="cep" placeholder="Cep" value="<?= $_POST['cep'] ?? $res?->cep ?>">
+        <input class="form-control cep <?= isset($_SESSION['error_cep']) ? 'is-invalid' : '' ?>" id="cep" type="text" name="cep" placeholder="Cep" value="<?= $_POST['cep'] ?? $res?->cep ?>">
         <label for="cep">Cep</label>
         <div class="invalid-feedback">Cep inválido</div>
         <div class="spinner position-absolute top-50 end-0 translate-middle pe-1 d-none">
@@ -57,12 +57,7 @@
     </div>
 
     <div class="d-flex gap-2">
-        <button class="btn btn-primary flex-grow-1" type="submit">Enviar</button>
+        <button class="btn btn-primary flex-grow-1 send" type="submit">Enviar</button>
         <a class="btn btn-light flex-grow-1" href="/panel.php">Voltar</a>
     </div>
 </form>
-
-<script>
-    $('#phone').mask('(00) 00000-0000')
-    $('#cep').mask('00000-000')
-</script>

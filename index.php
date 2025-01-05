@@ -1,5 +1,5 @@
 <?php
-include('config.php');
+include('includes/config.php');
 
 session_start();
 
@@ -54,7 +54,7 @@ function validateFields($field, $msg) {
 <html lang="pt-br">
 
 <head>
-    <?php include('head.php') ?>
+    <?php include('includes/head.php') ?>
     <title>Login</title>
 </head>
 
@@ -82,7 +82,7 @@ function validateFields($field, $msg) {
         </div>
     </main>
 
-    <?php include('notify.php') ?>
+    <?php include('includes/notify.php') ?>
 </body>
 
 </html>
