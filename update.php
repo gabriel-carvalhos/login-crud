@@ -25,44 +25,53 @@
     }
     
     if ($_POST) {
-        $name = $_POST['name'];
-        $email = $_POST['email'];
-        $phone = $_POST['phone'];
-        $cep = $_POST['cep'];
-        $street = $_POST['street'];
-        $district = $_POST['district'];
-        $city = $_POST['city'];
-        $state = $_POST['state'];
+        update($id, $conn);
+    }
+
+    function update($id, $conn) {
+        // Desestruturando $_POST
+        [
+            'name'=>$name,
+            'email'=>$email,
+            'phone'=>$phone,
+            'cep'=>$cep,
+            'street'=>$street,
+            'district'=>$district,
+            'city'=>$city,
+            'state'=>$state
+        ] = $_POST;
 
         $query = "SELECT * FROM client WHERE (email = ? OR phone = ?) AND id != ?";
         $stmt = $conn->prepare($query);
         $stmt->bind_param('ssi', $email, $phone, $id);
         $stmt->execute();
         $data_repeated = $stmt->get_result()->fetch_assoc();
-
-        if (!$data_repeated) {
-            $query = "UPDATE client
-                      SET name = ?, email = ?, phone = ?
-                      WHERE id = ?";
-            $stmt = $conn->prepare($query);
-            $stmt->bind_param('ssss', $name, $email, $phone, $id);
-            $stmt->execute();
-    
-            $query = "UPDATE address
-                      SET street = ?, district = ?, city = ?, state = ?, cep = ?
-                      WHERE id = ?";
-            $stmt = $conn->prepare($query);
-            $stmt->bind_param('ssssss', $street, $district, $city, $state, $cep, $id);
-            $stmt->execute();
-
-            $_SESSION['update'] = "Usuário: $name atualizado!";
-    
-            header('Location: panel.php');
-            die();
-        } else {
+        
+        if ($data_repeated) {
             echo "Dados fornecidos já estão em uso!";
+            return;
         }
+        
+        $query = "UPDATE client
+                    SET name = ?, email = ?, phone = ?
+                    WHERE id = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param('ssss', $name, $email, $phone, $id);
+        $stmt->execute();
+
+        $query = "UPDATE address
+                    SET street = ?, district = ?, city = ?, state = ?, cep = ?
+                    WHERE id = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param('ssssss', $street, $district, $city, $state, $cep, $id);
+        $stmt->execute();
+
+        $_SESSION['update'] = "Usuário: $name atualizado!";
+
+        header('Location: panel.php');
+        die();
     }
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">

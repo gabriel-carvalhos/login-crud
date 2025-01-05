@@ -4,44 +4,50 @@
     include('config.php');
 
     if (isset($_POST['name'])) {
+        create($conn);
+    }
 
-        $name = $_POST['name'];
-        $email = $_POST['email'];
-        $telephone = $_POST['phone'];
-        $cep = $_POST['cep'];
-        $rua = $_POST['street'];
-        $bairro = $_POST['district'];
-        $cidade = $_POST['city'];
-        $estado = $_POST['state'];
+    function create($conn) {
+        // Desestruturando $_POST
+        [
+            'name'=>$name,
+            'email'=>$email,
+            'phone'=>$phone,
+            'cep'=>$cep,
+            'street'=>$street,
+            'district'=>$district,
+            'city'=>$city,
+            'state'=>$state
+        ] = $_POST;
 
         $query = "SELECT id FROM client WHERE email = ? OR phone = ?";
         $stmt = $conn->prepare($query);
-        $stmt->bind_param("ss", $email, $telephone);
+        $stmt->bind_param("ss", $email, $phone);
         $stmt->execute();
+
         $data_repeated = $stmt->get_result()->fetch_assoc();
-
-        if (!$data_repeated) {
-            $query = "INSERT INTO address (street, district, city, state, cep) VALUES (?, ?, ?, ?, ?)";
-            $stmt = $conn->prepare($query);
-            $stmt->bind_param("sssss", $rua, $bairro, $cidade, $estado, $cep);
-            $stmt->execute();
-        
-            # obtém o ID do último registro inserido na tabela Endereco
-            $endereco_id = $stmt->insert_id;
-
-            $query = "INSERT INTO client (name, email, phone, address_id) VALUES (?, ?, ?, ?)";
-            $stmt = $conn->prepare($query);
-            $stmt->bind_param("sssi", $name, $email, $telephone, $endereco_id);
-            $stmt->execute();
-            
-            $_SESSION['create'] = "Usuário: $name criado!";
-
-            header('Location: panel.php');
-            die();
-        } else {
+        if ($data_repeated) {
             echo "Dados fornecidos já estão em uso!";
+            return;
         }
 
+        $query = "INSERT INTO address (street, district, city, state, cep) VALUES (?, ?, ?, ?, ?)";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("sssss", $street, $district, $city, $state, $cep);
+        $stmt->execute();
+    
+        // obtém o ID do último registro inserido na tabela Endereco
+        $address_id = $stmt->insert_id;
+
+        $query = "INSERT INTO client (name, email, phone, address_id) VALUES (?, ?, ?, ?)";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("sssi", $name, $email, $phone, $address_id);
+        $stmt->execute();
+        
+        $_SESSION['create'] = "Usuário: $name criado!";
+
+        header('Location: panel.php');
+        die();
     }
 
 ?>
