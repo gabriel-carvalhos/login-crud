@@ -27,25 +27,25 @@
     </div>
 
     <div class="form-floating mb-3">
-        <input required class="form-control" id="street" type="text" name="street" placeholder="Rua" value="<?= $_POST['street'] ?? $res?->street ?>">
+        <input required class="form-control address" id="logradouro" type="text" name="street" placeholder="Rua" value="<?= $_POST['street'] ?? $res?->street ?>">
         <label for="street">Rua</label>
         <div class="invalid-feedback"></div>
     </div>
 
     <div class="form-floating mb-3">
-        <input required class="form-control" id="district" type="text" name="district" placeholder="Bairro" value="<?= $_POST['district'] ?? $res?->district ?>">
+        <input required class="form-control address" id="bairro" type="text" name="district" placeholder="Bairro" value="<?= $_POST['district'] ?? $res?->district ?>">
         <label for="district">Bairro</label>
         <div class="invalid-feedback"></div>
     </div>
 
     <div class="form-floating mb-3">
-        <input required class="form-control" id="city" type="text" name="city" placeholder="Cidade" value="<?= $_POST['city'] ?? $res?->city ?>">
+        <input required class="form-control address" id="localidade" type="text" name="city" placeholder="Cidade" value="<?= $_POST['city'] ?? $res?->city ?>">
         <label for="city">Cidade</label>
         <div class="invalid-feedback"></div>
     </div>
 
     <div class="form-floating mb-3">
-        <input required class="form-control" id="state" type="text" name="state" placeholder="Estado" value="<?= $_POST['state'] ?? $res?->state ?>">
+        <input required class="form-control address" id="uf" type="text" name="state" placeholder="Estado" value="<?= $_POST['state'] ?? $res?->state ?>">
         <label for="state">Estado</label>
         <div class="invalid-feedback"></div>
     </div>
@@ -55,3 +55,22 @@
         <a class="btn btn-light flex-grow-1" href="/panel.php">Voltar</a>
     </div>
 </form>
+
+<!-- Modal -->
+<!-- <div class="modal fade show" id="loading-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Understood</button>
+            </div>
+        </div>
+    </div>
+</div> -->

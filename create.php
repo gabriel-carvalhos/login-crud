@@ -62,13 +62,14 @@
 
 <body class="w-100 min-vh-100 d-flex flex-column justify-content-center align-items-center">
 
+    <?php include('header.php') ?>
+
     <div class="container col-12 col-sm-10 col-md-8 col-lg-6 col-xl-4">
         <h1>Criar Cliente</h1>
         <?php include('fields.php') ?>
     </div>
 
     <?php include('notify.php') ?>
-
     <?php include('api.php'); ?>
 </body>
 

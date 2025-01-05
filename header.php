@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary position-fixed top-0 w-100">
+<nav class="navbar navbar-expand-lg bg-body-tertiary position-fixed top-0 w-100" style="z-index: 100000;">
     <div class="container-fluid">
         <a class="navbar-brand" href="/panel.php">Admin</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
