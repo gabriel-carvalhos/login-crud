@@ -3,9 +3,10 @@ include('protect.php');
 
 include('config.php');
 
-$query = "SELECT * FROM cliente AS c
-              INNER JOIN endereco as e
-              ON c.endereco_id = e.id";
+$query = "SELECT * FROM client AS c
+          INNER JOIN address AS a
+          ON c.address_id = a.id
+          ORDER BY c.id DESC";
 
 $res = $conn->query($query) or die("Erro na query SQL:" . $conn->error);
 
@@ -25,7 +26,7 @@ $res = $conn->query($query) or die("Erro na query SQL:" . $conn->error);
     <?php include('header.php') ?>
 
     <div class="px-2 col-12 col-sm-12 col-md-10 col-lg-7">
-        <h1>Usuários</h1>
+        <h1>Clientes</h1>
 
         <div class="table-responsive">
             <table class="table table-striped table-hover table-bordered m-0">
@@ -45,14 +46,14 @@ $res = $conn->query($query) or die("Erro na query SQL:" . $conn->error);
                         while ($row = $res->fetch_assoc()) {
                             echo "<tr>
                                         <th scope='row'>{$row['id']}</th>
-                                        <td>{$row['nome']}</td>
+                                        <td>{$row['name']}</td>
                                         <td>{$row['email']}</td>
-                                        <td>{$row['telefone']}</td>
-                                        <td>{$row['rua']}, {$row['bairro']}, {$row['cidade']}, {$row['estado']}, {$row['cep']}</td>
+                                        <td>{$row['phone']}</td>
+                                        <td>{$row['street']}, {$row['district']}, {$row['city']}, {$row['state']}, {$row['cep']}</td>
                                         <td>
                                             <div class='d-flex flex-wrap gap-1'>
                                                 <a href='/update.php?id={$row['id']}' class='btn btn-warning flex-grow-1'>Editar</a>
-                                                <button data-bs-toggle='modal' data-bs-target='#exampleModal' data-action='delete.php?id={$row['id']}' class='btn btn-danger flex-grow-1'>Apagar</button>
+                                                <button data-bs-toggle='modal' data-bs-target='#deleteModal' data-action='delete.php?id={$row['id']}' class='btn btn-danger flex-grow-1'>Apagar</button>
                                             </div>
                                         </td>
                                     </tr>";
@@ -69,7 +70,7 @@ $res = $conn->query($query) or die("Erro na query SQL:" . $conn->error);
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -88,10 +89,10 @@ $res = $conn->query($query) or die("Erro na query SQL:" . $conn->error);
     </div>
 
     <script>
-        const exampleModal = document.getElementById('exampleModal')
-        const confirm = exampleModal.querySelector('#confirm')
-        if (exampleModal) {
-            exampleModal.addEventListener('show.bs.modal', event => {
+        const deleteModal = document.getElementById('deleteModal')
+        const confirm = deleteModal.querySelector('#confirm')
+        if (deleteModal) {
+            deleteModal.addEventListener('show.bs.modal', event => {
                 const button = event.relatedTarget
                 const action = button.getAttribute('data-action')
 

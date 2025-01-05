@@ -2,7 +2,7 @@
 
     $user = 'root';
     $password = 'root';
-    $database = 'client_crud';
+    $database = 'login_crud';
     $host = 'localhost';
 
     $conn = new mysqli($host, $user, $password, $database);

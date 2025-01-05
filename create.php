@@ -15,14 +15,14 @@
         $cidade = $_POST['cidade'];
         $estado = $_POST['estado'];
 
-        $query = "SELECT id FROM cliente WHERE email = ? OR telefone = ?";
+        $query = "SELECT id FROM client WHERE email = ? OR phone = ?";
         $stmt = $conn->prepare($query);
         $stmt->bind_param("ss", $email, $telephone);
         $stmt->execute();
         $data_repeated = $stmt->get_result()->fetch_assoc();
 
         if (!$data_repeated) {
-            $query = "INSERT INTO Endereco (rua, bairro, cidade, estado, cep) VALUES (?, ?, ?, ?, ?)";
+            $query = "INSERT INTO address (street, district, city, state, cep) VALUES (?, ?, ?, ?, ?)";
             $stmt = $conn->prepare($query);
             $stmt->bind_param("sssss", $rua, $bairro, $cidade, $estado, $cep);
             $stmt->execute();
@@ -30,7 +30,7 @@
             # obtém o ID do último registro inserido na tabela Endereco
             $endereco_id = $stmt->insert_id;
 
-            $query = "INSERT INTO cliente (nome, email, telefone, endereco_id) VALUES (?, ?, ?, ?)";
+            $query = "INSERT INTO client (name, email, phone, address_id) VALUES (?, ?, ?, ?)";
             $stmt = $conn->prepare($query);
             $stmt->bind_param("sssi", $name, $email, $telephone, $endereco_id);
             $stmt->execute();

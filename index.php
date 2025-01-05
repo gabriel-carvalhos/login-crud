@@ -21,18 +21,18 @@ function login($conn) {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    $query = "SELECT * FROM usuarios WHERE email_usuarios = ? LIMIT 1";
+    $query = "SELECT * FROM user WHERE email = ? LIMIT 1";
     $stmt = $conn->prepare($query);
     $stmt->bind_param('s', $email);
     $stmt->execute();
     $res = $stmt->get_result()->fetch_assoc();
 
-    if (!$res || !password_verify($password, $res['senha_usuarios'])) {
+    if (!$res || !password_verify($password, $res['password'])) {
         $_SESSION['error_email'] = 'Email ou senha incorreta!';
         return;
     }
 
-    $_SESSION['id'] = $res['id_usuarios'];
+    $_SESSION['id'] = $res['id'];
     $_SESSION['login'] = 'Logado com sucesso!';
 
     header("Location: panel.php");
