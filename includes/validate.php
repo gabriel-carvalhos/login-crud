@@ -1,7 +1,11 @@
 <?php
 
-function validate($name, $email, $phone, $cep, $street, $district, $city, $state, $data_repeated) {
+function validate($name, $email, $phone, $cep, $street, $district, $city, $state) {
     $isValid = true;
+
+    $client = new Client();
+    $email_repeated = $client->findByEmail($email);
+    $phone_repeated = $client->findByPhone($phone);
 
     if (strlen($name) <= 2 || strlen($name) > 50) {
         $_SESSION['error_name'] = 'Nome deve conter entre 2 a 50 caracteres';
@@ -13,7 +17,7 @@ function validate($name, $email, $phone, $cep, $street, $district, $city, $state
         $isValid = false;
     }
 
-    if ($data_repeated?->email === $email) {
+    if ($email_repeated) {
         $_SESSION['error_email'] = "Email já utilizado!";
         $isValid = false;
     }
@@ -23,7 +27,7 @@ function validate($name, $email, $phone, $cep, $street, $district, $city, $state
         $isValid = false;
     }
 
-    if ($data_repeated?->phone === $phone) {
+    if ($phone_repeated) {
         $_SESSION['error_phone'] = "Telefone já utilizado!";
         $isValid = false;
     }

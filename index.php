@@ -1,5 +1,6 @@
 <?php
-include('includes/config.php');
+require_once 'database/Database.php';
+require_once 'database/User.php';
 
 session_start();
 
@@ -10,10 +11,10 @@ if (isset($_SESSION['id'])) {
 }
 
 if (isset($_POST['email']) || isset($_POST['password'])) {
-    login($conn);
+    login();
 }
 
-function login($conn) {
+function login() {
     if (!validateFields('email', 'Campo de E-mail vazio!')) return;
     
     if (!validateFields('password', 'Campo de Senha vazio!')) return;
@@ -21,11 +22,8 @@ function login($conn) {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    $query = "SELECT * FROM user WHERE email = ? LIMIT 1";
-    $stmt = $conn->prepare($query);
-    $stmt->bind_param('s', $email);
-    $stmt->execute();
-    $res = $stmt->get_result()->fetch_assoc();
+    $user = new User();
+    $res = $user->findByEmail($email);
 
     if (!$res || !password_verify($password, $res['password'])) {
         $_SESSION['error_email'] = 'Email ou senha incorreta!';

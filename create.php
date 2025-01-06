@@ -1,12 +1,15 @@
 <?php
     include('includes/protect.php');
-    include('includes/config.php');
+
+    require_once 'database/Database.php';
+    require_once 'database/Client.php';
+    require_once 'database/Address.php';
 
     if (isset($_POST['name'])) {
-        create($conn);
+        createClient();
     }
 
-    function create($conn) {
+    function createClient() {
         // Desestruturando $_POST
         [
             'name'=>$name,
@@ -23,29 +26,17 @@
         $phone = str_replace(["(",")","-"," "], "", $phone);
         $cep = str_replace("-", "", $cep);
 
-        $query = "SELECT email, phone FROM client WHERE email = ? OR phone = ?";
-        $stmt = $conn->prepare($query);
-        $stmt->bind_param("ss", $email, $phone);
-        $stmt->execute();
-        $data_repeated = $stmt->get_result()->fetch_object();
-        
         // Validando formulário
         include('includes/validate.php');
-        $isValid = validate($name, $email, $phone, $cep, $street, $district, $city, $state, $data_repeated);
+        $isValid = validate($name, $email, $phone, $cep, $street, $district, $city, $state);
         if (!$isValid) return;
-
-        $query = "INSERT INTO address (street, district, city, state, cep) VALUES (?, ?, ?, ?, ?)";
-        $stmt = $conn->prepare($query);
-        $stmt->bind_param("sssss", $street, $district, $city, $state, $cep);
-        $stmt->execute();
-    
-        // obtém o ID do último registro inserido na tabela Endereco
-        $address_id = $stmt->insert_id;
-
-        $query = "INSERT INTO client (name, email, phone, address_id) VALUES (?, ?, ?, ?)";
-        $stmt = $conn->prepare($query);
-        $stmt->bind_param("sssi", $name, $email, $phone, $address_id);
-        $stmt->execute();
+        
+        // Insere endereço no banco e retorna o insert_id
+        $address = new Address();
+        $address_id = $address->insert($street, $district, $city, $state, $cep);
+        
+        $client = new Client();
+        $client->insert($name, $email, $phone, $address_id);
         
         $_SESSION['create'] = "Usuário criado!";
 

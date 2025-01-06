@@ -1,14 +1,11 @@
 <?php
 include('includes/protect.php');
 
-include('includes/config.php');
+require_once 'database/Database.php';
+require_once 'database/Client.php';
 
-$query = "SELECT * FROM client AS c
-          INNER JOIN address AS a
-          ON c.address_id = a.id
-          ORDER BY c.id DESC";
-
-$res = $conn->query($query) or die("Erro na query SQL:" . $conn->error);
+$client = new Client();
+$res = $client->findAll();
 
 ?>
 
@@ -49,8 +46,8 @@ $res = $conn->query($query) or die("Erro na query SQL:" . $conn->error);
                     </thead>
                     <tbody>
                         <?php
-                        if ($res->num_rows) {
-                            while ($row = $res->fetch_assoc()) {
+                        if (count($res)) {
+                            foreach ($res as $row) {
                                 echo "<tr>
                                             <th scope='row'>{$row['id']}</th>
                                             <td>{$row['name']}</td>
