@@ -13,6 +13,14 @@ class Address extends Database
         $stmt->execute();
         return $this->pdo->lastInsertId();
     }
+
+    public function delete($id) {
+        $sql = "DELETE FROM address WHERE id = :id";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+    }
+
 }
 
 ?>

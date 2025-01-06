@@ -1,7 +1,7 @@
 <?php 
     include('includes/protect.php');
-
-    include('includes/config.php');
+    require_once 'database/Database.php';
+    require_once 'database/Address.php';
 
     if (!isset($_GET['id'])) {
         header('Location: panel.php');
@@ -9,10 +9,8 @@
     }
 
     $id = $_GET['id'];
-    $query = "DELETE FROM address WHERE id = ?";
-    $stmt = $conn->prepare($query);
-    $stmt->bind_param('s', $id);
-    $stmt->execute();
+    $address = new Address();
+    $address->delete($id);
     
     $_SESSION['delete'] = "Usuário deletado!";
     
