@@ -1,7 +1,8 @@
 <?php 
     include('includes/protect.php');
-
-    include('includes/config.php');
+    require_once 'database/Database.php';
+    require_once 'database/Client.php';
+    require_once 'database/Address.php';
 
     if (!isset($_GET['id'])) {
         header('Location: panel.php');
@@ -9,14 +10,8 @@
     }
 
     $id = $_GET['id'];
-    $query = "SELECT * FROM client AS c
-              INNER JOIN address AS a
-              ON c.address_id = a.id
-              WHERE c.id = ?";
-    $stmt = $conn->prepare($query);
-    $stmt->bind_param('s', $id);
-    $stmt->execute();
-    $res = $stmt->get_result()->fetch_object();
+    $client = new Client();
+    $res = $client->findById($id);
 
     if (!$res) {
         $_SESSION['error404'] = 'Página não encontrada!';
@@ -25,10 +20,10 @@
     }
     
     if ($_POST) {
-        update($id, $conn);
+        update($id, $client);
     }
 
-    function update($id, $conn) {
+    function update($id, $client) {
         // Desestruturando $_POST
         [
             'name'=>$name,
@@ -44,31 +39,16 @@
         // Limpando formatação
         $phone = str_replace(["(",")","-"," "], "", $phone);
         $cep = str_replace("-", "", $cep);
-
-        $query = "SELECT email, phone FROM client WHERE (email = ? OR phone = ?) AND id != ?";
-        $stmt = $conn->prepare($query);
-        $stmt->bind_param('ssi', $email, $phone, $id);
-        $stmt->execute();
-        $data_repeated = $stmt->get_result()->fetch_object();
         
         // Validando formulário
         include('includes/validate.php');
-        $isValid = validate($name, $email, $phone, $cep, $street, $district, $city, $state, $data_repeated);
+        $isValid = validate($name, $email, $phone, $cep, $street, $district, $city, $state, $id);
         if (!$isValid) return;
         
-        $query = "UPDATE client
-                    SET name = ?, email = ?, phone = ?
-                    WHERE id = ?";
-        $stmt = $conn->prepare($query);
-        $stmt->bind_param('ssss', $name, $email, $phone, $id);
-        $stmt->execute();
+        $client->update($name, $email, $phone, $id);
 
-        $query = "UPDATE address
-                    SET street = ?, district = ?, city = ?, state = ?, cep = ?
-                    WHERE id = ?";
-        $stmt = $conn->prepare($query);
-        $stmt->bind_param('ssssss', $street, $district, $city, $state, $cep, $id);
-        $stmt->execute();
+        $address = new Address();
+        $address->update($street, $district, $city, $state, $cep, $id);
 
         $_SESSION['update'] = "Usuário atualizado!";
 

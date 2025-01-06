@@ -1,11 +1,11 @@
 <?php
 
-function validate($name, $email, $phone, $cep, $street, $district, $city, $state) {
+function validate($name, $email, $phone, $cep, $street, $district, $city, $state, $id) {
     $isValid = true;
 
     $client = new Client();
-    $email_repeated = $client->findByEmail($email);
-    $phone_repeated = $client->findByPhone($phone);
+    $email_repeated = $client->findByEmail($email, $id);
+    $phone_repeated = $client->findByPhone($phone, $id);
 
     if (strlen($name) <= 2 || strlen($name) > 50) {
         $_SESSION['error_name'] = 'Nome deve conter entre 2 a 50 caracteres';

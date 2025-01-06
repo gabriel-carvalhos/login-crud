@@ -28,7 +28,7 @@
 
         // Validando formulário
         include('includes/validate.php');
-        $isValid = validate($name, $email, $phone, $cep, $street, $district, $city, $state);
+        $isValid = validate($name, $email, $phone, $cep, $street, $district, $city, $state, null);
         if (!$isValid) return;
         
         // Insere endereço no banco e retorna o insert_id
