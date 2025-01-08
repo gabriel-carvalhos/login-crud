@@ -6,6 +6,8 @@
 ![jQuery](https://img.shields.io/badge/jquery-%230769AD.svg?style=for-the-badge&logo=jquery&logoColor=white)
 ![MySQL](https://img.shields.io/badge/mysql-4479A1.svg?style=for-the-badge&logo=mysql&logoColor=white)
 
+https://github.com/user-attachments/assets/111924c7-642f-4598-9328-4d5f779e1a29
+
 Este projeto implementa um sistema de autenticação de usuários (login) e operações CRUD (Create, Read, Update, Delete).
 
 1. [Setup](#-setup)
@@ -96,6 +98,7 @@ Este projeto implementa um sistema de autenticação de usuários (login) e oper
 ## ✅ To do
 
 - "Dockerizar" aplicação para deploy
+- Paginação
 - Preenchimento de formulário automático
 - Sistema de cadastro de usuários
 - Tema claro/escuro
