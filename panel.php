@@ -29,7 +29,7 @@ $res = $client->findAll();
         <div class="px-2 col-12 col-sm-12 col-md-10 col-lg-7">
             <div class="d-flex justify-content-between align-items-center">
                 <h1>Clientes</h1>
-                <a href="/create.php" class="btn btn-success">Cadastrar</a>
+                <a href="create.php" class="btn btn-success">Cadastrar</a>
             </div>
     
             <div class="table-responsive">
@@ -56,7 +56,7 @@ $res = $client->findAll();
                                             <td>{$row['street']}, {$row['district']}, {$row['city']}, {$row['state']}, <span class='cep'>{$row['cep']}</span></td>
                                             <td>
                                                 <div class='d-flex flex-wrap gap-1'>
-                                                    <a href='/update.php?id={$row['id']}' class='btn btn-warning flex-grow-1'>Editar</a>
+                                                    <a href='update.php?id={$row['id']}' class='btn btn-warning flex-grow-1'>Editar</a>
                                                     <button data-bs-toggle='modal' data-bs-target='#deleteModal' data-action='delete.php?id={$row['id']}' class='btn btn-danger flex-grow-1'>Apagar</button>
                                                 </div>
                                             </td>

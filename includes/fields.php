@@ -58,6 +58,6 @@
 
     <div class="d-flex gap-2">
         <button class="btn btn-primary flex-grow-1 send" type="submit">Enviar</button>
-        <a class="btn btn-light flex-grow-1" href="/panel.php">Voltar</a>
+        <a class="btn btn-light flex-grow-1" href="panel.php">Voltar</a>
     </div>
 </form>

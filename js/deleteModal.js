@@ -7,7 +7,7 @@ if (deleteModal) {
         const action = button.getAttribute('data-action')
 
         confirm.addEventListener('click', () => {
-            location.assign(`/${action}`)
+            location.assign(`${action}`)
         })
 
     })
