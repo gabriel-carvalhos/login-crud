@@ -10,6 +10,7 @@ Este projeto implementa um sistema de autenticação de usuários (login) e oper
 
 1. [Setup](#-setup)
 2. [Funcionalidades](#️-funcionalidades)
+3. [To do](#-to-do)
 
 ## 💻 Setup
 
@@ -60,9 +61,9 @@ Este projeto implementa um sistema de autenticação de usuários (login) e oper
     );
     ```
 
-3. Substitua com suas informações de usuário e senha do banco de dados no arquivo database/Database.php.
+3. Substitua com suas informações de usuário e senha do banco de dados em "database/Database.php".
 
-4. Execute o projeto, e faça login com o email **admin@admin.com** e com a senha **"admin"**.
+4. Execute o projeto, e faça login com o email "**admin@admin.com**" e com a senha **"admin"**.
 
 ## 🛠️ Funcionalidades
 
